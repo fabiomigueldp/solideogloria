@@ -19,8 +19,7 @@
       --nebular-swirl-core: rgba(220, 200, 255, 0.30);
       --ignis-divinus-fulgor: rgba(255,223,0,0.9);
     }
-    html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: var(--kenoma-profundum); font-family: 'Cormorant Garamond', 'Trajan Pro', serif; opacity: 0; animation: aperturaAdSacrum 7s ease-out forwards; animation-delay: 2.5s; will-change: opacity; }
-    @keyframes aperturaAdSacrum { 0% { opacity:0; } 100% { opacity: 1; } }
+    html, body { width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden; background-color: var(--kenoma-profundum); font-family: 'Cormorant Garamond', 'Trajan Pro', serif; opacity: 0; transition: opacity 7s ease-out; will-change: opacity; }
     #theosis-theatrum { position: fixed; top: 0; left: 0; width: 100%; height: 100%; perspective: 4000px; perspective-origin: 50% 50%; z-index: 1; transform-style: preserve-3d; animation: spiritusMundiRespiratio 75s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite alternate; will-change: transform, filter;}
     @keyframes spiritusMundiRespiratio { 0% { transform: scale(1.000) translateZ(0px); filter: brightness(0.97) saturate(0.98); } 100% { transform: scale(1.004) translateZ(10px); filter: brightness(1.03) saturate(1.02); } }
     #background-aether-canvas { position: fixed; top:0; left:0; width:100%; height:100%; z-index: -5; pointer-events:none;}
@@ -99,6 +98,7 @@
     const K_LOGOS_ULTRA_PERFECTISSIMA = [
         { t:"תהו ובהו", f:"'Noto Serif Hebrew', serif", sr:0.9, c:"var(--pleroma-alba-margarita)", gl:"Inane et Vacuum", ai:1.5, es:"vacuumPrimordiale", dE:4000 },
         { t:"Fiat Lux", f:"'Trajan Pro', serif", sr:1.05, c:"var(--lux-increata-effulgentia)", gl:"Et Lux Facta Est", ai:2.2, es:"fiatLuxCosmica", dE:4000 },
+        { t: "In Principio Erat Verbum", f: "'Trajan Pro', serif", sr: 1.15, c: "var(--lumen-divinum-aurum)", gl: "Et Deus erat Verbum", ai: 2.2, es: "crystallizatioHarmonica", dE: 4500 },
         { t:"בראשית", f:"'Noto Serif Hebrew', serif", sr:0.9, c:"var(--lumen-divinum-aurum)", gl:"In Principio Creavit Deus", ai:1.3, es:"genesisSpiraliumNebulosarum", dE:4500 },
         { t:"λόγος σάρξ ἐγένετο", f:"'Noto Serif Greek', serif", sr:0.85, c:"var(--lumen-amoris-ignis)", gl:"Verbum Caro Factum Est", ai:1.9, es:"unioDivinoHumana", dE:4500 },
         { t:"Spiritus Mundi Fluit", f:"'Cormorant Garamond', serif", sr:0.95, c:"var(--anima-cosmica-smaragdus)", gl:"Anima Universi Vitalis", ai:1.4, es:"flumenVitaeSmaragdinum", dE:4200 },
@@ -245,12 +245,57 @@
                 break;
 
             case "fiatLuxCosmica":
+                document.body.style.opacity = 1; // Trigger page fade-in
+                setTimeout(manifestaPrincipiumPerfectissimum, 500); // Call manifestaPrincipiumPerfectissimum
+
                 const flashDivino = document.createElement('div');
                 flashDivino.style.cssText = 'position:fixed; top:0; left:0; width:100%; height:100%; background-color:var(--scintilla-prima); z-index:100000; pointer-events:none; opacity:0;';
                 document.body.appendChild(flashDivino);
                 M_DIVINITAS.elementaActiva.add(flashDivino);
                 flashDivino.animate([ { opacity: 0 }, { opacity: intensity / 3.5, offset: 0.05 }, { opacity: 0, offset: 1 } ], { duration: 3500 * intensity, easing: 'cubic-bezier(0.19, 1, 0.22, 1)' }).onfinish = () => { if (flashDivino.parentNode) flashDivino.remove(); M_DIVINITAS.elementaActiva.delete(flashDivino); };
                 for(let i = 0; i < 70 * intensity; i++) { creaIgnisDivinusPerfectissima(i * 5, 2.5 * intensity); }
+
+                // Re-initiate Background Effects (moved from initiaTheophaniamPerfectissimam)
+                // Initial burst of Lux Unda
+                for(let i=0; i < 40; i++) creaLuxPrimaUndaPerfectissima(i * 50 + K_DIVINI_MODI.RAND(-20,20)); // Staggered slightly
+
+                // Activate continuous fire (after a brief delay)
+                setTimeout(() => activateIgnisDivinusContinuus(K_TEMPORA_PERFECTISSIMA.manifestContinInterIgnis, 2.0), 500);
+
+                // Initial batch of Angelic Choirs (staggered)
+                setTimeout(() => {
+                    ['seraphim','cherubim','thrones','dominatio','virtus','potestas','principatus','archangelus','angelus'].forEach((t,idx)=>{
+                        creaChorusAngelorumPerfectissimus(idx*150, t,
+                            {x:K_DIVINI_MODI.RAND(10,90),y:K_DIVINI_MODI.RAND(10,90),z:K_DIVINI_MODI.RAND(-1200,1200)},
+                            {radMin:300,radMax:2000,velMin:0.2,velMax:2.2,compMin:5,compMax:12,numPart:K_DIVINI_MODI.RAND_INT(2,5),auraLayers:K_DIVINI_MODI.RAND_INT(2,4),trailLength:K_DIVINI_MODI.RAND(4,10)});
+                    });
+                }, 1000);
+
+                // Initial Nebulae (staggered)
+                setTimeout(() => {
+                    for(let i=0; i<K_DIVINI_MODI.MAX_NEBULAE_ULTRA;i++) creaSophiaNebulaPerfectissima(i*800+K_DIVINI_MODI.RAND(-250,250));
+                }, 2000);
+
+                // Initial Grace Rivers (staggered)
+                setTimeout(() => {
+                    for(let i=0; i<15;i++) creaGratiaFlumenPerfectissimum(i*700+K_DIVINI_MODI.RAND(-200,200)); // Reduced count for initial burst
+                }, 3000);
+
+                // Setup K_CONTIN_ULTRA_PERF continuous effects (these have their own internal delays `tsk.d`)
+                const K_CONTIN_ULTRA_PERF_FIATLUX=[
+                    {f:creaLuxPrimaUndaPerfectissima,i:5000,d:K_DIVINI_MODI.RAND(0,2000)},
+                    {f:()=>creaChorusAngelorumPerfectissimus(0,K_DIVINI_MODI.CHOICE(['seraphim','cherubim','thrones','dominatio','virtus','potestas','principatus','archangelus','angelus'])),i:3000,d:K_DIVINI_MODI.RAND(0,1000)},
+                    {f:creaSophiaNebulaPerfectissima,i:7000,d:K_DIVINI_MODI.RAND(0,3000)},
+                    {f:creaGratiaFlumenPerfectissimum,i:6000,d:K_DIVINI_MODI.RAND(0,2500)},
+                    {f:()=>creaSymbolaCosmica(0,K_DIVINI_MODI.RAND(0.7,1.5)),i:9000,d:K_DIVINI_MODI.RAND(0,4000)}
+                ];
+                K_CONTIN_ULTRA_PERF_FIATLUX.forEach(tsk=>{
+                    setTimeout(()=>{
+                        if(M_DIVINITAS.activa)tsk.f(0); // Initial call
+                        const id=setInterval(()=>{if(M_DIVINITAS.activa)tsk.f(0);else clearInterval(id);},tsk.i);
+                        M_DIVINITAS.elementaActiva.add(id); // Or intervalorumId if that's preferred tracking
+                    }, tsk.d + 500); // Add a small base delay to ensure FiatLux core effect is visible
+                });
                 break;
 
             case "genesisSpiraliumNebulosarum":
@@ -480,7 +525,7 @@
         ], { duration: (K_TEMPORA_PERFECTISSIMA.princRad - K_TEMPORA_PERFECTISSIMA.princEmerg) + 2500, easing: 'cubic-bezier(0.65, 0, 0.35, 1)', fill: 'forwards' });
         setTimeout(()=>{ if(!M_DIVINITAS.activa)return; p.style.animation="principiumPulsatioDivinaUltra 25s cubic-bezier(0.455,0.03,0.515,0.955) infinite alternate"; D_ELEMENTA.theatrum.insertAdjacentHTML('beforeend',`<style>@keyframes principiumPulsatioDivinaUltra{0%{opacity:0.92;transform:translate3d(-50%,-50%,-15px) scale(0.92);filter:brightness(3.8);box-shadow:0 0 35px 8px var(--scintilla-prima),0 0 70px 20px var(--lux-increata-effulgentia),0 0 130px 42px var(--lumen-divinum-aurum);}100%{opacity:1;transform:translate3d(-50%,-50%,15px) scale(1.08);filter:brightness(4.2);box-shadow:0 0 45px 12px var(--scintilla-prima),0 0 90px 28px var(--lux-increata-effulgentia),0 0 170px 55px var(--lumen-divinum-aurum);}}</style>`);},(K_TEMPORA_PERFECTISSIMA.princRad-K_TEMPORA_PERFECTISSIMA.princEmerg)+2500);
     }
-        setTimeout(manifestaPrincipiumPerfectissimum, K_TEMPORA_PERFECTISSIMA.princEmerg);
+        // setTimeout(manifestaPrincipiumPerfectissimum, K_TEMPORA_PERFECTISSIMA.princEmerg); // Commented out as per new logic
 
 
     /* ---- FUNCTIONES CREATIONIS ELEMENTORUM DIVINORUM (IMPLEMENTATIONES ABSOLUTAE ET PERFECTISSIMAE) ---- */
@@ -760,18 +805,25 @@
     /* ORCHESTRATIO ET REDITUS ANAGOGICUS (PERFECTISSIMI) */
     function initiaTheophaniamPerfectissimam(){ 
         M_DIVINITAS.paginaInitTimestamp = Date.now();
-        for(let i=0; i < 40; i++) creaLuxPrimaUndaPerfectissima(K_TEMPORA_PERFECTISSIMA.luxUndaSer + i * 100 + K_DIVINI_MODI.RAND(-30,30));
-        activateIgnisDivinusContinuus(K_TEMPORA_PERFECTISSIMA.manifestContinInterIgnis, 2.0);
-        ['seraphim','cherubim','thrones','dominatio','virtus','potestas','principatus','archangelus','angelus'].forEach((t,idx)=>{
-            creaChorusAngelorumPerfectissimus(K_TEMPORA_PERFECTISSIMA.chorSeraphInit+idx*150, t,
-                {x:K_DIVINI_MODI.RAND(10,90),y:K_DIVINI_MODI.RAND(10,90),z:K_DIVINI_MODI.RAND(-1200,1200)},
-                {radMin:300,radMax:2000,velMin:0.2,velMax:2.2,compMin:5,compMax:12,numPart:K_DIVINI_MODI.RAND_INT(2,5),auraLayers:K_DIVINI_MODI.RAND_INT(2,4),trailLength:K_DIVINI_MODI.RAND(4,10)});
-        });
-        for(let i=0; i<K_DIVINI_MODI.MAX_NEBULAE_ULTRA;i++)creaSophiaNebulaPerfectissima(K_TEMPORA_PERFECTISSIMA.sophNebPrim+i*1600+K_DIVINI_MODI.RAND(-250,250));
-        for(let i=0; i<30;i++)creaGratiaFlumenPerfectissimum(K_TEMPORA_PERFECTISSIMA.gratFlumPrim+i*1400+K_DIVINI_MODI.RAND(-200,200));
-        manifestaLogosPerfectissima(K_TEMPORA_PERFECTISSIMA.logosPrimProclam);
-        const K_CONTIN_ULTRA_PERF=[ {f:creaLuxPrimaUndaPerfectissima,i:5000,d:K_DIVINI_MODI.RAND(0,2000)}, {f:()=>creaChorusAngelorumPerfectissimus(0,K_DIVINI_MODI.CHOICE(['seraphim','cherubim','thrones','dominatio','virtus','potestas','principatus','archangelus','angelus'])),i:3000,d:K_DIVINI_MODI.RAND(0,1000)}, {f:creaSophiaNebulaPerfectissima,i:7000,d:K_DIVINI_MODI.RAND(0,3000)}, {f:creaGratiaFlumenPerfectissimum,i:6000,d:K_DIVINI_MODI.RAND(0,2500)}, {f:()=>creaSymbolaCosmica(0,K_DIVINI_MODI.RAND(0.7,1.5)),i:9000,d:K_DIVINI_MODI.RAND(0,4000)}];
-        K_CONTIN_ULTRA_PERF.forEach(tsk=>{setTimeout(()=>{if(M_DIVINITAS.activa)tsk.f(0);const id=setInterval(()=>{if(M_DIVINITAS.activa)tsk.f(0);else clearInterval(id);},tsk.i);M_DIVINITAS.elementaActiva.add(id);},tsk.d);});
+
+        // Ensure Principium exists if D_ELEMENTA.principium is null (e.g. after full cycle reditus)
+        // The new logic in fiatLuxCosmica might also create it, but this ensures it for the very first "Tohu vaVohu" if needed.
+        if (!D_ELEMENTA.principium) {
+            const newPrincipium = document.createElement('div');
+            newPrincipium.id = 'principium-incognitum';
+            if (D_ELEMENTA.theatrum) {
+                D_ELEMENTA.theatrum.appendChild(newPrincipium);
+            } else {
+                console.warn("Theatrum Divinum non repertum est pro Principio creando mature (initiaTheophaniamPerfectissimam).");
+                document.body.appendChild(newPrincipium);
+            }
+        }
+
+        // Initial effects moved to be triggered by "Fiat Lux"
+        // manifestaPrincipiumPerfectissimum(); // This is now triggered by Fiat Lux
+
+        manifestaLogosPerfectissima(K_TEMPORA_PERFECTISSIMA.logosPrimProclam); // "תהו ובהו" in darkness
+        // Continuous effects also moved to Fiat Lux
     }
 
     function initiaReditumAnagogicumPerfectissimum(){
