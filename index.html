@@ -873,18 +873,27 @@
 
     /* INITIUM POST ONUS PAGINAE COMPLETUM */
     document.addEventListener('DOMContentLoaded',()=>{
+        if (document.body) { // Ensure body exists
+            document.body.style.opacity = '0';
+            document.body.style.backgroundColor = 'var(--kenoma-profundum)';
+        }
+
         initAetherCanvasPerfectissima();
-        M_DIVINITAS.idFrameAnim=requestAnimationFrame(ansaAnimMagistraPerfectissima);
-        D_ELEMENTA.btnVisioPlena.addEventListener('click',()=>{
-            const e=document.documentElement;
-            if(!document.fullscreenElement&&!document.webkitFullscreenElement){
-                if(e.requestFullscreen)e.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
-                else if(e.webkitRequestFullscreen)e.webkitRequestFullscreen();
-            }
-        });
-        const bodyStyle = getComputedStyle(document.body);
-        const totalIntroTime = (parseFloat(bodyStyle.animationDelay.replace('s','')) + parseFloat(bodyStyle.animationDuration.replace('s',''))) * 1000;
-        setTimeout(initiaTheophaniamPerfectissimam, Math.max(0, totalIntroTime - 2000));
+        M_DIVINITAS.idFrameAnim = requestAnimationFrame(ansaAnimMagistraPerfectissima);
+
+        if (D_ELEMENTA.btnVisioPlena) { // Ensure button exists before adding listener
+            D_ELEMENTA.btnVisioPlena.addEventListener('click',()=>{
+                const e=document.documentElement;
+                if(!document.fullscreenElement&&!document.webkitFullscreenElement){
+                    if(e.requestFullscreen)e.requestFullscreen().catch(err => console.error(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`));
+                    else if(e.webkitRequestFullscreen)e.webkitRequestFullscreen();
+                }
+            });
+        }
+
+        // Call initiaTheophaniamPerfectissimam after a short delay
+        // This allows initial styles to apply and DOM to be fully ready.
+        setTimeout(initiaTheophaniamPerfectissimam, 100);
     });
 
   </script>
